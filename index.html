@@ -23,6 +23,9 @@ box-shadow:inset 0 0 0 2px #fff,0 2px 4px #0001;padding:6px;font:inherit;cursor:
 .ban{height:100%;border-radius:12px;display:flex;flex-direction:column;justify-content:center;align-items:center;color:#fff;
 text-shadow:0 1px 3px #0006;font-weight:600;font-size:1.15rem;text-align:center;padding:6px}
 .ban small{font-weight:400;font-size:.75rem;opacity:.9}
+.pic{justify-content:flex-end;padding:0;overflow:hidden;background-size:cover;background-position:center}
+.pic span{display:block;width:100%;padding:6px 8px;background:linear-gradient(#0000,#000b)}.pic small{display:block}
+.ban.pv{background:url(images/vending-map.jpg) center/cover}.ban.pi{background:url(images/inta-map.jpg) center/cover}.pic span{font-size:.95em}
 .b1{background:linear-gradient(#2a8fe0,#0a3f9c)}.b2{background:linear-gradient(#3b8a3e,#155c1c)}.b3{background:linear-gradient(#e59b4a,#b4561c)}
 .bar{position:relative;max-width:980px;margin:18px auto 0;height:150px;display:grid;grid-template-columns:110px 1fr 110px;align-items:end;padding:0 16px 18px}
 .bar>svg{position:absolute;inset:0;width:100%;height:100%;z-index:-1}
@@ -60,9 +63,9 @@ section{padding:16px}section h2{margin:-16px -16px 12px;padding:8px 16px}.pill{m
 
 <!-- Channel grid: the three project cards -->
 <div class="grid">
-  <button class="tile" data-open="d-screw"><div class="ban b3">Screwworm Channel<small>GEOG 476 capstone &middot; 2026</small></div></button>
-  <button class="tile" data-open="d-vend"><div class="ban b1">Vending Channel<small>GEOG 352 &middot; 2025</small></div></button>
-  <button class="tile" data-open="d-inta"><div class="ban b2">INTA Map Channel<small>Political Science &middot; 2025</small></div></button>
+  <button class="tile" data-open="d-screw"><div class="ban b3">Screwworm Channel<small>GEOG 476 capstone &middot; 2026</small><small>[ADD] preview image</small></div></button>
+  <button class="tile" data-open="d-vend"><div class="ban b1 pic pv"><span>Vending Channel<small>GEOG 352 &middot; 2025</small></span></div></button>
+  <button class="tile" data-open="d-inta"><div class="ban b2 pic pi"><span>INTA Map Channel<small>Political Science &middot; 2025</small></span></div></button>
   <div class="tile empty"></div><div class="tile empty"></div><div class="tile empty"></div>
 </div>
 
@@ -182,7 +185,7 @@ section{padding:16px}section h2{margin:-16px -16px 12px;padding:8px 16px}.pill{m
     <div id="map"></div>
     <p class="meta" id="mapnote"></p>
     <h4>What I would do differently</h4>
-    <p>[ADD]. Limits we reported: indoor GPS error reduced point accuracy, and several machines close together at Langford introduced some sampling bias.</p>
+    <p>Take more trials, ask Texas A&amp;M maintenance when machines are restocked and with what, and build a live web app so the public can check the data any time. Limits we reported: indoor GPS error reduced point accuracy, and several machines close together at Langford introduced some sampling bias.</p>
   </div>
   <div class="df"><button class="pill" data-close>Mee Menu</button><span class="pill" aria-disabled="true">Start</span></div>
 </dialog>
@@ -212,12 +215,16 @@ function tick(){const d=new Date();
   document.getElementById('date').textContent=d.toLocaleDateString([], {weekday:'short',month:'numeric',day:'numeric'});}
 tick();setInterval(tick,10000);
 
-// Vending machine map data. lat/lng left blank on purpose: [ADD] coordinates from the Field Maps layer.
+// Vending machine map data, from the coordinates table on our GEOG 352 poster
 const vendPoints=[
-  {name:"Langford Architecture Building (A)",note:"Widest variety and highest overall stock.",lat:null,lng:null},
-  {name:"Computing Services Annex",note:"Closest option to Eller (not counting in-building machines).",lat:null,lng:null},
-  {name:"Commons Dining Hall",note:"Consistently low beverage availability.",lat:null,lng:null},
-  {name:"Eller Oceanography and Meteorology Building",note:"Center of the study area.",lat:null,lng:null}
+  {name:"Eller Oceanography and Meteorology Building",note:"Center of the study area.",lat:30.617674,lng:-96.336775},
+  {name:"Liberal Arts and Humanities Building",note:"Vending machine location.",lat:30.617610,lng:-96.337914},
+  {name:"Langford Architecture Building (A)",note:"Widest variety and highest overall stock.",lat:30.618900,lng:-96.337800},
+  {name:"AI Engineering Building",note:"Vending machine location.",lat:30.617610,lng:-96.337914},
+  {name:"Computing Services Center",note:"Vending machine location.",lat:30.616550,lng:-96.337120},
+  {name:"Teague Research Center",note:"Vending machine location.",lat:30.617255,lng:-96.336009},
+  {name:"Computing Services Annex",note:"Closest option to Eller (not counting in-building machines).",lat:30.617440,lng:-96.337240},
+  {name:"Commons Dining Hall",note:"Consistently low beverage availability.",lat:30.615289,lng:-96.335984}
 ];
 let map;
 function initMap(){

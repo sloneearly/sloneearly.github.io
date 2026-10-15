@@ -1,273 +1,239 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Slone Early | GIS Portfolio</title>
-  <meta name="description" content="Slone Early: GIS student technician at Texas A&M University. Geospatial analysis, web mapping, Python, and game development.">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Slone Early | Portfolio</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<style>
+:root{--cyan:#34bde6;--grey:#8c8c8c;--ink:#3c3c3c;--tile:#fdfdfd}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Segoe UI","Helvetica Neue",Arial,sans-serif;color:var(--ink);line-height:1.55;
+background:repeating-linear-gradient(#eeeeee 0 3px,#e6e6e6 3px 6px)}
+a{color:#1a8fc0}
+header{text-align:center;padding:28px 16px 8px}
+header h1{margin:0;font-size:2rem;color:#555;letter-spacing:.02em}
+header p{margin:4px 0 0;color:var(--grey)}
+.grid{max-width:980px;margin:16px auto 0;padding:0 16px;display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.tile{aspect-ratio:16/10;border:3px solid #cfcfcf;border-radius:18px;background:linear-gradient(#fff,#ececec);
+box-shadow:inset 0 0 0 2px #fff,0 2px 4px #0001;padding:6px;font:inherit;cursor:pointer;transition:.15s}
+.tile:hover,.tile:focus-visible{border-color:var(--cyan);box-shadow:0 0 0 4px #34bde655;outline:none;transform:scale(1.03)}
+.tile.empty{cursor:default;pointer-events:none}
+.ban{height:100%;border-radius:12px;display:flex;flex-direction:column;justify-content:center;align-items:center;color:#fff;
+text-shadow:0 1px 3px #0006;font-weight:600;font-size:1.15rem;text-align:center;padding:6px}
+.ban small{font-weight:400;font-size:.75rem;opacity:.9}
+.b1{background:linear-gradient(#2a8fe0,#0a3f9c)}.b2{background:linear-gradient(#3b8a3e,#155c1c)}.b3{background:linear-gradient(#e59b4a,#b4561c)}
+.bar{position:relative;max-width:980px;margin:18px auto 0;height:150px;display:grid;grid-template-columns:110px 1fr 110px;align-items:end;padding:0 16px 18px}
+.bar>svg{position:absolute;inset:0;width:100%;height:100%;z-index:-1}
+.clock{position:absolute;left:0;right:0;top:0;text-align:center;font-size:3rem;font-weight:300;color:#a3a3a3;letter-spacing:.12em}
+.date{text-align:center;color:var(--grey);font-size:1.4rem;font-weight:600}
+.round{width:84px;height:84px;border-radius:50%;border:3px solid var(--cyan);background:linear-gradient(#fff,#e2e2e2);
+display:grid;place-items:center;color:#999;font-weight:700;font-size:1.3rem;text-decoration:none;box-shadow:0 2px 5px #0002}
+.round:hover{box-shadow:0 0 0 4px #34bde655}.mail{justify-self:end}
+main{max-width:860px;margin:0 auto;padding:8px 16px 40px}
+section{background:#fff;border:2px solid #d6d6d6;border-radius:18px;margin:22px 0;padding:18px 22px;box-shadow:0 2px 6px #0001}
+section h2{margin:-18px -22px 14px;padding:8px 22px;border-radius:16px 16px 0 0;background:linear-gradient(90deg,#fff,var(--cyan));color:#2a6f88;font-size:1.15rem}
+h3{margin:12px 0 2px;font-size:1.05rem}.meta{color:var(--grey);font-size:.88rem;margin:0 0 6px}
+.tags{display:flex;flex-wrap:wrap;gap:6px;padding:0;list-style:none}.tags li{border:1px solid var(--cyan);border-radius:99px;padding:1px 10px;font-size:.82rem;color:#2a6f88}
+dialog{width:min(760px,94vw);max-height:90vh;border:none;border-radius:22px;padding:0;background:#fff;box-shadow:0 10px 40px #0005}
+dialog::backdrop{background:#0006}
+.dh{display:flex;justify-content:flex-end;padding:0 0 0 30%}.dh span{background:var(--cyan);color:#fff;padding:4px 18px;border-radius:0 18px 0 18px;font-size:.9rem}
+.db{padding:6px 24px 10px;overflow:auto;max-height:calc(90vh - 130px)}.db h4{margin:12px 0 2px;color:#2a6f88}.db p{margin:0 0 6px}
+.df{background:linear-gradient(#e9e9e9,#d5d5d5);display:flex;justify-content:center;gap:18px;padding:16px}
+.pill{min-width:140px;padding:9px 18px;border-radius:99px;border:2px solid var(--cyan);background:#fff;font:inherit;color:#444;text-align:center;text-decoration:none;cursor:pointer}
+.pill[aria-disabled]{border-color:#ccc;color:#bbb;pointer-events:none}
+#map,iframe{width:100%;height:300px;border:2px solid #d6d6d6;border-radius:12px;margin:6px 0}
+@media(max-width:640px){.grid{grid-template-columns:1fr 1fr}.grid .empty:nth-child(n+5){display:none}
+.bar{grid-template-columns:70px 1fr 70px;height:120px}.round{width:62px;height:62px;font-size:1rem}.clock{font-size:2.2rem}.date{font-size:1.1rem}
+section{padding:16px}section h2{margin:-16px -16px 12px;padding:8px 16px}.pill{min-width:110px}}
+</style>
 </head>
 <body>
 
-<header class="site-header">
-  <nav class="nav">
-    <a class="brand" href="#top">Slone Early</a>
-    <ul>
-      <li><a href="#gis">GIS Work</a></li>
-      <li><a href="#experience">Experience</a></li>
-      <li><a href="#games">Games</a></li>
-      <li><a href="#tennis">Spur Tennis</a></li>
-      <li><a href="#contact">Contact</a></li>
-    </ul>
-  </nav>
+<header>
+  <h1>Slone Early</h1>
+  <p>GIS Student Technician at Texas A&amp;M &middot; Geographic Information Science and Technology, Minor in Computer Science</p>
 </header>
 
-<main id="top">
+<!-- Channel grid: the three project cards -->
+<div class="grid">
+  <button class="tile" data-open="d-screw"><div class="ban b3">Screwworm Channel<small>GEOG 476 capstone &middot; 2026</small></div></button>
+  <button class="tile" data-open="d-vend"><div class="ban b1">Vending Channel<small>GEOG 352 &middot; 2025</small></div></button>
+  <button class="tile" data-open="d-inta"><div class="ban b2">INTA Map Channel<small>Political Science &middot; 2025</small></div></button>
+  <div class="tile empty"></div><div class="tile empty"></div><div class="tile empty"></div>
+</div>
 
-  <!-- HERO -->
-  <section class="hero">
-    <svg class="contours" viewBox="0 0 800 500" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-      <g fill="none" stroke="currentColor" stroke-width="1">
-        <path d="M-20 420 C120 360 220 440 360 380 S600 300 820 360"/>
-        <path d="M-20 380 C110 320 240 400 370 340 S610 260 820 320"/>
-        <path d="M-20 340 C100 280 250 360 380 300 S620 220 820 280"/>
-        <path d="M-20 300 C90 240 260 320 390 260 S630 180 820 240"/>
-        <path d="M-20 260 C80 200 270 280 400 220 S640 140 820 200"/>
-        <path d="M-20 220 C70 160 280 240 410 180 S650 100 820 160"/>
-        <path d="M-20 180 C60 120 290 200 420 140 S660 60 820 120"/>
-        <path d="M-20 140 C50 80 300 160 430 100 S670 20 820 80"/>
-        <ellipse cx="610" cy="150" rx="70" ry="38"/>
-        <ellipse cx="610" cy="150" rx="40" ry="20"/>
-        <ellipse cx="610" cy="150" rx="14" ry="7"/>
-      </g>
-    </svg>
-    <div class="hero-inner">
-      <p class="coords">30.63&deg; N, 96.33&deg; W &middot; College Station, TX</p>
-      <h1>Howdy, I'm Slone Early.</h1>
-      <p class="lede">I am a Geographic Information Science and Technology student at Texas A&amp;M with a minor in Computer Science, graduating December 2026. I work as a GIS Student Technician, run a tennis tournament business, and build games in my spare time.</p>
-      <p class="lede">I like problems where the data is messy and the answer has to make sense to someone who is not a GIS person.</p>
-      <div class="hero-links">
-        <a class="btn primary" href="#gis">See my GIS work</a>
-        <a class="btn" href="https://drive.google.com/file/d/1h5U8_RlFCRDuk7-wJSXXNMEgwbkci3oj/view?usp=drive_link" target="_blank" rel="noopener">Resume</a>
-      </div>
-      <ul class="tags">
-        <li>ArcGIS Pro</li><li>ArcGIS Online</li><li>StoryMaps</li><li>Python</li><li>JavaScript</li><li>QGIS</li><li>Field Maps</li><li>Godot</li>
-      </ul>
-    </div>
+<!-- Wii Menu bar -->
+<div class="bar">
+  <svg viewBox="0 0 1000 150" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0 62H280C380 62 400 110 500 110S620 62 720 62H1000V150H0Z" fill="#dedede"/>
+    <path d="M0 62H280C380 62 400 110 500 110S620 62 720 62H1000" fill="none" stroke="#34bde6" stroke-width="3"/>
+  </svg>
+  <div class="clock" id="clock">--:--</div>
+  <a class="round" href="#about" title="About">Wii</a>
+  <div class="date" id="date"></div>
+  <a class="round mail" href="mailto:sloneearly@gmail.com" title="Email me">
+    <svg width="38" height="28" viewBox="0 0 38 28"><rect x="1" y="1" width="36" height="26" rx="3" fill="#9a9a9a"/><path d="M2 3l17 13L36 3" fill="none" stroke="#fff" stroke-width="2.5"/></svg>
+  </a>
+</div>
+
+<main>
+  <section id="about">
+    <h2>About</h2>
+    <p>Howdy! I'm a senior at Texas A&amp;M studying Geographic Information Science and Technology with a minor in Computer Science, graduating December 2026. I work as a GIS Student Technician, run a tennis tournament business, and build games in my spare time.</p>
+    <p>Click a channel above to open a project.</p>
   </section>
 
-  <!-- GIS PROJECTS -->
-  <section id="gis" class="section">
-    <div class="section-head">
-      <span class="label">01</span>
-      <h2>GIS Projects</h2>
-    </div>
-
-    <article class="project featured">
-      <div class="project-meta">
-        <span class="year">2026</span>
-        <span class="status">In progress</span>
-      </div>
-      <div class="project-body">
-        <h3>New World Screwworm Transmission Pathways</h3>
-        <p class="client">GEOG 476 GIS Practicum capstone &middot; client brief from USDA / NGA Tearline</p>
-        <p>Our class is building an intelligence estimate on whether cattle movement from Guatemala through southern Mexico could carry New World Screwworm into South Texas. I am Team Lead for Team A, so I keep each member's component connected and set up regular cross-team red-teaming with Team B.</p>
-        <p>My own component is a data reliability check. It flags problem records in the detection data and shows where U.S. (APHIS) and Mexican (SENASICA) sources disagree. It runs three tests:</p>
-        <ul>
-          <li><strong>Unit consistency</strong> across the reporting sources</li>
-          <li><strong>Coordinate plausibility</strong> for records that have real coordinates, using a projected CRS for distance checks</li>
-          <li><strong>Source agreement</strong> between APHIS and SENASICA counts</li>
-        </ul>
-        <p>Surprising records go back to their owners instead of being silently "fixed." The check does not claim the data is accurate. It shows where it should not be trusted yet.</p>
-        <ul class="tags small"><li>JavaScript</li><li>Data QA</li><li>Projections</li><li>Team leadership</li></ul>
-      </div>
-    </article>
-
-    <article class="project">
-      <div class="project-meta"><span class="year">2025</span></div>
-      <div class="project-body">
-        <h3>Peafowl Movement, Home Range, and Interaction Analysis</h3>
-        <p class="client">Client work for a Texas A&amp;M professor's grant proposal</p>
-        <p>I analyzed GPS telemetry data to build movement paths, home range estimates (MCP and KDE), and spatial proximity metrics in ArcGIS Pro. I also designed a workflow that finds encounters between birds that are close in both space and time. ArcGIS could not handle the timestamps well, so I wrote Python preprocessing in Jupyter to clean them first.</p>
-        <p>I finished with client-facing documentation so non-GIS users can rerun, change, and extend the analysis on their own.</p>
-        <ul class="tags small"><li>ArcGIS Pro</li><li>Python</li><li>Jupyter</li><li>StoryMaps</li><li>Telemetry</li></ul>
-      </div>
-    </article>
-
-    <article class="project">
-      <div class="project-meta"><span class="year">2025</span></div>
-      <div class="project-body">
-        <h3>INTA Exam Map</h3>
-        <p class="client">Department of Political Science, Texas A&amp;M</p>
-        <p>I built a web map used to give a graduate-level exam. It needed to show and label only a set list of countries, in a set order. I cleaned the country names in the exam table to match the World Countries Generalized layer (for example, "Czechia" vs. "Czech Republic"), joined the two, and used a definition query to keep only matched countries.</p>
-        <p>Because joins do not carry over when publishing web maps, I exported the result as a new feature class with an ordering field so the labels stay in the right sequence in ArcGIS Online.</p>
-        <ul class="tags small"><li>ArcGIS Pro</li><li>ArcGIS Online</li><li>Data cleaning</li><li>Joins</li></ul>
-        <a class="link" href="https://tamu.maps.arcgis.com/home/item.html?id=bd451ea2c4184eeb991b50c3bf473fc8" target="_blank" rel="noopener">Open the web map &rarr;</a>
-      </div>
-    </article>
-
-    <article class="project">
-      <div class="project-meta"><span class="year">2025</span></div>
-      <div class="project-body">
-        <h3>Vending Machine Beverage Availability on the East Quad</h3>
-        <p class="client">GEOG 352 (GNSS in the Geosciences) team project</p>
-        <p>Our team mapped every vending machine within about 700 to 800 feet of the Eller Oceanography and Meteorology Building. Over three days we collected point locations in Esri Field Maps and logged drink stock in Google Sheets, then averaged availability across days.</p>
-        <p>Langford Architecture Building (A) had the best variety and stock. The Computing Services Annex was the closest option to Eller. The Commons Dining Hall was the most often empty. We also reported our limits: indoor GPS error and sampling bias where several machines sat close together.</p>
-        <ul class="tags small"><li>Field Maps</li><li>ArcGIS Online</li><li>GNSS</li><li>Field data collection</li></ul>
-      </div>
-    </article>
-
-    <article class="project">
-      <div class="project-meta"><span class="year">2024</span></div>
-      <div class="project-body">
-        <h3>Money Talks, But It Also Snores: Income and Sleep Deprivation</h3>
-        <p class="client">ArcGIS StoryMap</p>
-        <p>A StoryMap that compares household median income and sleep deprivation across U.S. counties. I used bivariate choropleth mapping and basic statistics in ArcGIS Pro, then wrote the story so it works for both technical and non-technical readers.</p>
-        <ul class="tags small"><li>ArcGIS Pro</li><li>StoryMaps</li><li>Bivariate mapping</li></ul>
-      </div>
-    </article>
+  <section id="resume">
+    <h2>Resume</h2>
+    <p><a href="https://drive.google.com/file/d/1h5U8_RlFCRDuk7-wJSXXNMEgwbkci3oj/view?usp=drive_link" target="_blank" rel="noopener">Download my resume</a></p>
+    <h3>GIS Student Technician</h3>
+    <p class="meta">Texas A&amp;M University &middot; College Station, TX &middot; Sept 2025 to Present</p>
+    <ul>
+      <li>Help students, faculty, and staff with ArcGIS Pro, ArcGIS Online, QGIS, ENVI, and Trimble.</li>
+      <li>Support ArcGIS Online portal administration, shared datasets, web maps, StoryMaps, and field data collection tools.</li>
+      <li>Develop and configure web maps for Aggiemap, including layer visibility, popups, and data integration for campus operations and special events.</li>
+    </ul>
+    <h3>Owner and Event Organizer</h3>
+    <p class="meta">Spur Tennis Club &middot; Gatesville, TX &middot; Aug 2024 to Present</p>
+    <ul>
+      <li>Run monthly UTR-verified tennis tournaments with 50+ players of all ages and levels.</li>
+      <li>Handle scheduling, finances, customer support, merchandise, the website, and social media.</li>
+    </ul>
+    <h3>Bookkeeper and Event Staff</h3>
+    <p class="meta">Rafter E Productions &middot; events across Texas &middot; 2021 to Present (as needed)</p>
+    <ul>
+      <li>Build and automate Excel and live Google Sheets tools used by event staff and participants.</li>
+      <li>Fix live data problems on the spot, while clients and attendees are watching.</li>
+    </ul>
+    <h3>B.S. Geographic Information Science and Technology</h3>
+    <p class="meta">Texas A&amp;M University &middot; Minor in Computer Science &middot; December 2026</p>
+    <p>Coursework includes Cartography and Visualization, GNSS in the Geosciences, Remote Sensing, Principles of GIS, Geodatabases, Digital Image Processing, Data Structures and Algorithms, and Computer Organization.</p>
+    <h3>Certifications</h3>
+    <ul>
+      <li>Automate the Boring Stuff with Python (Udemy)</li>
+      <li>Classifying Objects Using Deep Learning in ArcGIS Pro</li>
+      <li>Displaying Raster Data in ArcGIS</li>
+    </ul>
+    <h3>Tools</h3>
+    <ul class="tags"><li>ArcGIS Pro</li><li>ArcGIS Online</li><li>StoryMaps</li><li>Python</li><li>JavaScript</li><li>QGIS</li><li>Field Maps</li><li>Godot</li></ul>
   </section>
 
-  <!-- EXPERIENCE -->
-  <section id="experience" class="section alt">
-    <div class="section-head">
-      <span class="label">02</span>
-      <h2>Experience</h2>
-    </div>
-
-    <div class="timeline">
-      <div class="job">
-        <div class="when">Sept 2025 &ndash; Present</div>
-        <div>
-          <h3>GIS Student Technician</h3>
-          <p class="client">Texas A&amp;M University &middot; College Station, TX</p>
-          <ul>
-            <li>Help students, faculty, and staff with ArcGIS Pro, ArcGIS Online, QGIS, ENVI, and Trimble.</li>
-            <li>Support ArcGIS Online portal administration, shared datasets, web maps, StoryMaps, and field data collection tools.</li>
-            <li>Develop and configure web maps for Aggiemap, including layer visibility, popups, and data integration for campus operations and special events.</li>
-          </ul>
-        </div>
-      </div>
-      <div class="job">
-        <div class="when">Aug 2024 &ndash; Present</div>
-        <div>
-          <h3>Owner and Event Organizer</h3>
-          <p class="client">Spur Tennis Club &middot; Gatesville, TX</p>
-          <ul>
-            <li>Run monthly UTR-verified tennis tournaments with 50+ players of all ages and levels.</li>
-            <li>Handle scheduling, finances, customer support, merchandise, the website, and social media.</li>
-          </ul>
-        </div>
-      </div>
-      <div class="job">
-        <div class="when">2021 &ndash; Present (as needed)</div>
-        <div>
-          <h3>Bookkeeper and Event Staff</h3>
-          <p class="client">Rafter E Productions &middot; events across Texas</p>
-          <ul>
-            <li>Build and automate Excel and live Google Sheets tools used by event staff and participants.</li>
-            <li>Fix live data problems on the spot, while clients and attendees are watching.</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-
-    <div class="edu">
-      <div>
-        <h3>B.S. Geographic Information Science and Technology</h3>
-        <p class="client">Texas A&amp;M University &middot; Minor in Computer Science &middot; December 2026</p>
-        <p>Coursework includes Cartography and Visualization, GNSS in the Geosciences, Remote Sensing, Principles of GIS, Geodatabases, Digital Image Processing, Data Structures and Algorithms, and Computer Organization.</p>
-      </div>
-      <div>
-        <h3>Certifications</h3>
-        <ul class="plain">
-          <li>Automate the Boring Stuff with Python (Udemy)</li>
-          <li>Classifying Objects Using Deep Learning in ArcGIS Pro</li>
-          <li>Displaying Raster Data in ArcGIS</li>
-        </ul>
-      </div>
-    </div>
+  <section id="games">
+    <h2>Game Development</h2>
+    <h3>The Waiting Game</h3>
+    <p class="meta">Python &middot; PyGame &middot; OpenCV &middot; 2024</p>
+    <p>A game about paying attention. Zimblort walks a tightrope, and if you look away from the screen, check your phone, or doze off, he falls. Face tracking through OpenCV drives the balance. I also packaged it as a standalone .exe.
+      <a href="https://slahn.itch.io/the-waiting-game" target="_blank" rel="noopener">itch.io</a> &middot; <a href="https://github.com/slahns/Waiting-Game" target="_blank" rel="noopener">GitHub</a></p>
+    <h3>Clash of Calculations</h3>
+    <p class="meta">Godot &middot; GDScript &middot; Photoshop</p>
+    <p>A two-player, web-based educational fighting game. Players solve math problems to power up their attacks. I built the mechanics, UI, and balancing, and drew the art myself.
+      <a href="https://slahn.itch.io/clashofcalculations" target="_blank" rel="noopener">itch.io</a></p>
+    <h3>Goblin Stole My Credit Card</h3>
+    <p>[ADD]</p>
   </section>
 
-  <!-- GAMES -->
-  <section id="games" class="section">
-    <div class="section-head">
-      <span class="label">03</span>
-      <h2>Game Development</h2>
-    </div>
-    <p class="section-intro">Games are where I practice programming for fun. Most of them started as a way to solve a problem I had.</p>
-
-    <div class="cards">
-      <article class="card">
-        <h3>The Waiting Game</h3>
-        <p class="client">Python &middot; PyGame &middot; OpenCV &middot; 2024</p>
-        <p>A game about paying attention. Zimblort walks a tightrope, and if you look away from the screen, check your phone, or doze off, he falls. Face tracking through OpenCV drives the balance. I also packaged it as a standalone .exe.</p>
-        <div class="card-links">
-          <a href="https://slahn.itch.io/the-waiting-game" target="_blank" rel="noopener">itch.io</a>
-          <a href="https://github.com/slahns/Waiting-Game" target="_blank" rel="noopener">GitHub</a>
-        </div>
-      </article>
-      <article class="card">
-        <h3>Clash of Calculations</h3>
-        <p class="client">Godot &middot; GDScript &middot; Photoshop</p>
-        <p>A two-player, web-based educational fighting game. Players solve math problems to power up their attacks. I built the mechanics, UI, and balancing, and drew the art myself.</p>
-        <div class="card-links">
-          <a href="https://slahn.itch.io/clashofcalculations" target="_blank" rel="noopener">itch.io</a>
-        </div>
-      </article>
-      <article class="card">
-        <h3>Goblin Stole My Credit Card</h3>
-        <p class="client">Game project</p>
-        <p>A smaller game project from my earlier portfolio.</p>
-      </article>
-    </div>
+  <section id="tennis">
+    <h2>Spur Tennis Club</h2>
+    <p>I played UTR (Universal Tennis Rating) tournaments all through high school. When I came home one summer, most of those events were gone. So I started my own.</p>
+    <p>Spur Tennis Club is now a UTR provider in my hometown of Gatesville, Texas. With help from my parents, Sam and Se'Vette Early, we run monthly tournaments open to all ages and levels. Our first event, the Labor Day Weekend Roundup, brought in 47 players.</p>
+    <p><a href="https://spurtennis.club" target="_blank" rel="noopener">spurtennis.club</a> &middot; <a href="https://app.utrsports.net/clubs/1273954" target="_blank" rel="noopener">UTR club page</a></p>
   </section>
 
-  <!-- TENNIS -->
-  <section id="tennis" class="section alt">
-    <div class="section-head">
-      <span class="label">04</span>
-      <h2>Spur Tennis Club</h2>
-    </div>
-    <div class="tennis">
-      <div>
-        <p>I played UTR (Universal Tennis Rating) tournaments all through high school. When I came home one summer, most of those events were gone. So I started my own.</p>
-        <p>Spur Tennis Club is now a UTR provider in my hometown of Gatesville, Texas. With help from my parents, Sam and Se'Vette Early, we run monthly tournaments open to all ages and levels. Our first event, the Labor Day Weekend Roundup, brought in 47 players.</p>
-        <p>Running it taught me project management, budgeting, marketing, and web work, and it keeps tennis available to the community that raised me.</p>
-        <div class="card-links">
-          <a href="https://spurtennis.club" target="_blank" rel="noopener">spurtennis.club</a>
-          <a href="https://app.utrsports.net/clubs/1273954" target="_blank" rel="noopener">UTR club page</a>
-        </div>
-      </div>
-      <div class="stat-grid">
-        <div class="stat"><span class="num">47</span><span class="cap">players at our first event</span></div>
-        <div class="stat"><span class="num">50+</span><span class="cap">players per monthly tournament</span></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- CONTACT -->
-  <section id="contact" class="section contact">
-    <div class="section-head">
-      <span class="label">05</span>
-      <h2>Contact</h2>
-    </div>
-    <p class="section-intro">The best way to reach me is email.</p>
-    <div class="contact-links">
-      <a href="mailto:sloneearly@gmail.com">sloneearly@gmail.com</a>
-      <a href="https://www.linkedin.com/in/slone-early-104113167/" target="_blank" rel="noopener">LinkedIn</a>
-      <a href="https://github.com/sloneearly" target="_blank" rel="noopener">GitHub</a>
-      <a href="https://www.instagram.com/sloneearly/" target="_blank" rel="noopener">Instagram</a>
-    </div>
+  <section id="contact">
+    <h2>Contact</h2>
+    <p>Email: <a href="mailto:sloneearly@gmail.com">sloneearly@gmail.com</a></p>
+    <p><a href="https://www.linkedin.com/in/slone-early-104113167/" target="_blank" rel="noopener">LinkedIn</a> &middot; <a href="https://github.com/sloneearly" target="_blank" rel="noopener">GitHub</a> &middot; <a href="https://www.instagram.com/sloneearly/" target="_blank" rel="noopener">Instagram</a></p>
   </section>
 </main>
 
-<footer class="footer">
-  <p>&copy; 2026 Slone Early &middot; Built for GitHub Pages</p>
-</footer>
+<!-- Project channels (open when a tile is clicked) -->
+<dialog id="d-screw">
+  <div class="dh"><span>Screwworm Channel</span></div>
+  <div class="db">
+    <h3>New World Screwworm Transmission Pathways</h3>
+    <p class="meta">GEOG 476 GIS Practicum capstone &middot; client brief from USDA / NGA Tearline &middot; In progress</p>
+    <h4>The problem</h4>
+    <p>Could cattle movement from Guatemala through southern Mexico toward South Texas provide undetected pathways for New World Screwworm, and what explains the June 2026 detections in Zavala County, Texas? Our class is building an intelligence estimate to answer that.</p>
+    <h4>What I did</h4>
+    <p>I am Team Lead for Team A. I keep each member's component connected and set up regular cross-team red-teaming with Team B. My own component is a data reliability check that flags problem detection records using three tests: unit consistency, coordinate plausibility for records with real coordinates, and agreement between U.S. (APHIS) and Mexican (SENASICA) sources. Surprising records go back to their owners instead of being silently "fixed."</p>
+    <h4>What I found</h4>
+    <p>[ADD]</p>
+    <h4>What I would do differently</h4>
+    <p>[ADD]</p>
+  </div>
+  <div class="df"><button class="pill" data-close>Wii Menu</button><span class="pill" aria-disabled="true">Start</span></div>
+</dialog>
 
+<dialog id="d-vend">
+  <div class="dh"><span>Vending Channel</span></div>
+  <div class="db">
+    <h3>Vending Machine Beverage Availability on the East Quad</h3>
+    <p class="meta">GEOG 352 (GNSS in the Geosciences) team project &middot; 2025</p>
+    <h4>The problem</h4>
+    <p>Students and faculty rely on vending machines for quick drinks, but what is in stock varies a lot by location. We wanted to know which machines near the Eller Oceanography and Meteorology Building were most likely to have specific drinks, and how easy they were to reach on foot.</p>
+    <h4>What I did</h4>
+    <p>Our team split up the buildings within about 700 to 800 feet of Eller. Over three days we recorded machine locations as points in Esri Field Maps and logged drink stock in Google Sheets. We then averaged availability across days and mapped the results in ArcGIS Online.</p>
+    <h4>What I found</h4>
+    <p>Langford Architecture Building (A) had the widest variety and highest stock. The Computing Services Annex was the closest option to Eller (not counting in-building machines). The Commons Dining Hall was consistently low. Pepsi was the most common drink and Mountain Dew Baja Blast the least. Some buildings had no machines at all.</p>
+    <div id="map"></div>
+    <p class="meta" id="mapnote"></p>
+    <h4>What I would do differently</h4>
+    <p>[ADD]. Limits we reported: indoor GPS error reduced point accuracy, and several machines close together at Langford introduced some sampling bias.</p>
+  </div>
+  <div class="df"><button class="pill" data-close>Wii Menu</button><span class="pill" aria-disabled="true">Start</span></div>
+</dialog>
+
+<dialog id="d-inta">
+  <div class="dh"><span>INTA Map Channel</span></div>
+  <div class="db">
+    <h3>INTA Exam Map</h3>
+    <p class="meta">Department of Political Science, Texas A&amp;M &middot; 2025</p>
+    <h4>The problem</h4>
+    <p>A graduate-level exam needed a web map that shows and labels only a set list of countries, in a set order, while keeping accurate geometry and working in ArcGIS Online.</p>
+    <h4>What I did</h4>
+    <p>I cleaned the country names in the exam table (Countries_Partial) to match the World Countries Generalized layer, joined the two, and used a definition query to show only matched countries. I then exported the result as a new feature class with an ordering field so the labels keep their sequence.</p>
+    <h4>What I found</h4>
+    <p>Many names did not match: spelling errors, legacy names like "Czechia" vs. "Czech Republic," and politically sensitive cases. I also found that in-memory joins do not carry over when publishing web maps, which is why the export step was needed.</p>
+    <iframe src="https://tamu.maps.arcgis.com/home/item.html?id=bd451ea2c4184eeb991b50c3bf473fc8" title="INTA Exam web map" loading="lazy"></iframe>
+    <h4>What I would do differently</h4>
+    <p>[ADD]</p>
+  </div>
+  <div class="df"><button class="pill" data-close>Wii Menu</button><a class="pill" href="https://tamu.maps.arcgis.com/home/item.html?id=bd451ea2c4184eeb991b50c3bf473fc8" target="_blank" rel="noopener">Start</a></div>
+</dialog>
+
+<script>
+// Wii-style clock and date
+function tick(){const d=new Date();
+  document.getElementById('clock').textContent=d.toLocaleTimeString([], {hour:'numeric',minute:'2-digit'});
+  document.getElementById('date').textContent=d.toLocaleDateString([], {weekday:'short',month:'numeric',day:'numeric'});}
+tick();setInterval(tick,10000);
+
+// Vending machine map data. lat/lng left blank on purpose: [ADD] coordinates from the Field Maps layer.
+const vendPoints=[
+  {name:"Langford Architecture Building (A)",note:"Widest variety and highest overall stock.",lat:null,lng:null},
+  {name:"Computing Services Annex",note:"Closest option to Eller (not counting in-building machines).",lat:null,lng:null},
+  {name:"Commons Dining Hall",note:"Consistently low beverage availability.",lat:null,lng:null},
+  {name:"Eller Oceanography and Meteorology Building",note:"Center of the study area.",lat:null,lng:null}
+];
+let map;
+function initMap(){
+  if(map){map.invalidateSize();return;}
+  map=L.map('map');
+  L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}',{attribution:'Tiles &copy; Esri'}).addTo(map);
+  const pts=vendPoints.filter(p=>typeof p.lat==='number'&&typeof p.lng==='number');
+  pts.forEach(p=>L.marker([p.lat,p.lng]).addTo(map).bindPopup('<b>'+p.name+'</b><br>'+p.note));
+  if(pts.length){map.fitBounds(pts.map(p=>[p.lat,p.lng]),{padding:[30,30],maxZoom:17});}
+  else{map.fitWorld();document.getElementById('mapnote').textContent='[ADD] machine coordinates to show the points on this map.';}
+}
+
+// Open and close project channels
+document.querySelectorAll('[data-open]').forEach(b=>b.addEventListener('click',()=>{
+  const dlg=document.getElementById(b.dataset.open);dlg.showModal();
+  if(dlg.id==='d-vend')setTimeout(initMap,50);}));
+document.querySelectorAll('[data-close]').forEach(b=>b.addEventListener('click',()=>b.closest('dialog').close()));
+document.querySelectorAll('dialog').forEach(d=>d.addEventListener('click',e=>{if(e.target===d)d.close();}));
+</script>
 </body>
 </html>

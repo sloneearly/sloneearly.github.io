@@ -1,6 +1,6 @@
 # sloneearly.github.io
 
-Personal GIS portfolio for Slone Early, hosted on GitHub Pages. Wii Menu theme.
+Personal GIS portfolio for Slone Early, hosted on GitHub Pages. Mee Menu theme.
 
 ## Files
 - `index.html` - the whole site in one file (HTML, CSS, and JavaScript). Leaflet loads from unpkg.com.

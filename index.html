@@ -15,8 +15,8 @@ a{color:#1a8fc0}
 header{text-align:center;padding:28px 16px 8px}
 header h1{margin:0;font-size:2rem;color:#555;letter-spacing:.02em}
 header p{margin:4px 0 0;color:var(--grey)}
-.grid{max-width:980px;margin:16px auto 0;padding:0 16px;display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
-.tile{aspect-ratio:16/10;border:3px solid #cfcfcf;border-radius:18px;background:linear-gradient(#fff,#ececec);
+.grid{max-width:980px;margin:16px auto 0;padding:0 16px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.tile{min-width:0;aspect-ratio:16/10;border:3px solid #cfcfcf;border-radius:18px;background:linear-gradient(#fff,#ececec);
 box-shadow:inset 0 0 0 2px #fff,0 2px 4px #0001;padding:6px;font:inherit;cursor:pointer;transition:.15s}
 .tile:hover,.tile:focus-visible{border-color:var(--cyan);box-shadow:0 0 0 4px #34bde655;outline:none;transform:scale(1.03)}
 .tile.empty{cursor:default;pointer-events:none}
@@ -26,7 +26,7 @@ text-shadow:0 1px 3px #0006;font-weight:600;font-size:1.15rem;text-align:center;
 .b1{background:linear-gradient(#2a8fe0,#0a3f9c)}.b2{background:linear-gradient(#3b8a3e,#155c1c)}.b3{background:linear-gradient(#e59b4a,#b4561c)}
 .bar{position:relative;max-width:980px;margin:18px auto 0;height:150px;display:grid;grid-template-columns:110px 1fr 110px;align-items:end;padding:0 16px 18px}
 .bar>svg{position:absolute;inset:0;width:100%;height:100%;z-index:-1}
-.clock{position:absolute;left:0;right:0;top:0;text-align:center;font-size:3rem;font-weight:300;color:#a3a3a3;letter-spacing:.12em}
+.clock{position:absolute;left:0;right:0;top:0;line-height:1;text-align:center;font-size:3rem;font-weight:300;color:#a3a3a3;letter-spacing:.12em}
 .date{text-align:center;color:var(--grey);font-size:1.4rem;font-weight:600}
 .round{width:84px;height:84px;border-radius:50%;border:3px solid var(--cyan);background:linear-gradient(#fff,#e2e2e2);
 display:grid;place-items:center;color:#999;font-weight:700;font-size:1.3rem;text-decoration:none;box-shadow:0 2px 5px #0002}
@@ -44,8 +44,10 @@ dialog::backdrop{background:#0006}
 .pill{min-width:140px;padding:9px 18px;border-radius:99px;border:2px solid var(--cyan);background:#fff;font:inherit;color:#444;text-align:center;text-decoration:none;cursor:pointer}
 .pill[aria-disabled]{border-color:#ccc;color:#bbb;pointer-events:none}
 #map,iframe{width:100%;height:300px;border:2px solid #d6d6d6;border-radius:12px;margin:6px 0}
-@media(max-width:640px){.grid{grid-template-columns:1fr 1fr}.grid .empty:nth-child(n+5){display:none}
-.bar{grid-template-columns:70px 1fr 70px;height:120px}.round{width:62px;height:62px;font-size:1rem}.clock{font-size:2.2rem}.date{font-size:1.1rem}
+@media(max-width:640px){header{padding:24px 16px 4px}header h1{font-size:1.75rem}header p{font-size:.88rem;line-height:1.4;margin:6px auto 0}header p span{display:block}header .sep{display:none}
+.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:18px}.grid .empty:nth-child(n+5){display:none}
+.tile{border-radius:14px;padding:4px}.ban{border-radius:10px;font-size:.95rem;line-height:1.25}.ban small{font-size:.68rem;margin-top:3px}
+.bar{grid-template-columns:70px 1fr 70px;height:125px;margin-top:22px;padding:0 12px 14px}.round{width:60px;height:60px;font-size:1rem}.clock{font-size:2rem}.date{font-size:1.05rem}
 section{padding:16px}section h2{margin:-16px -16px 12px;padding:8px 16px}.pill{min-width:110px}}
 </style>
 </head>
@@ -53,7 +55,7 @@ section{padding:16px}section h2{margin:-16px -16px 12px;padding:8px 16px}.pill{m
 
 <header>
   <h1>Slone Early</h1>
-  <p>GIS Student Technician at Texas A&amp;M &middot; Geographic Information Science and Technology, Minor in Computer Science</p>
+  <p><span>GIS Student Technician at Texas A&amp;M</span> <span class="sep">&middot;</span> <span>Geographic Information Science and Technology, Minor in Computer Science</span></p>
 </header>
 
 <!-- Channel grid: the three project cards -->
@@ -64,14 +66,14 @@ section{padding:16px}section h2{margin:-16px -16px 12px;padding:8px 16px}.pill{m
   <div class="tile empty"></div><div class="tile empty"></div><div class="tile empty"></div>
 </div>
 
-<!-- Wii Menu bar -->
+<!-- Mee Menu bar -->
 <div class="bar">
   <svg viewBox="0 0 1000 150" preserveAspectRatio="none" aria-hidden="true">
     <path d="M0 62H280C380 62 400 110 500 110S620 62 720 62H1000V150H0Z" fill="#dedede"/>
     <path d="M0 62H280C380 62 400 110 500 110S620 62 720 62H1000" fill="none" stroke="#34bde6" stroke-width="3"/>
   </svg>
   <div class="clock" id="clock">--:--</div>
-  <a class="round" href="#about" title="About">Wii</a>
+  <a class="round" href="#about" title="About">Mee</a>
   <div class="date" id="date"></div>
   <a class="round mail" href="mailto:sloneearly@gmail.com" title="Email me">
     <svg width="38" height="28" viewBox="0 0 38 28"><rect x="1" y="1" width="36" height="26" rx="3" fill="#9a9a9a"/><path d="M2 3l17 13L36 3" fill="none" stroke="#fff" stroke-width="2.5"/></svg>
@@ -163,7 +165,7 @@ section{padding:16px}section h2{margin:-16px -16px 12px;padding:8px 16px}.pill{m
     <h4>What I would do differently</h4>
     <p>[ADD]</p>
   </div>
-  <div class="df"><button class="pill" data-close>Wii Menu</button><span class="pill" aria-disabled="true">Start</span></div>
+  <div class="df"><button class="pill" data-close>Mee Menu</button><span class="pill" aria-disabled="true">Start</span></div>
 </dialog>
 
 <dialog id="d-vend">
@@ -182,7 +184,7 @@ section{padding:16px}section h2{margin:-16px -16px 12px;padding:8px 16px}.pill{m
     <h4>What I would do differently</h4>
     <p>[ADD]. Limits we reported: indoor GPS error reduced point accuracy, and several machines close together at Langford introduced some sampling bias.</p>
   </div>
-  <div class="df"><button class="pill" data-close>Wii Menu</button><span class="pill" aria-disabled="true">Start</span></div>
+  <div class="df"><button class="pill" data-close>Mee Menu</button><span class="pill" aria-disabled="true">Start</span></div>
 </dialog>
 
 <dialog id="d-inta">
@@ -200,11 +202,11 @@ section{padding:16px}section h2{margin:-16px -16px 12px;padding:8px 16px}.pill{m
     <h4>What I would do differently</h4>
     <p>[ADD]</p>
   </div>
-  <div class="df"><button class="pill" data-close>Wii Menu</button><a class="pill" href="https://tamu.maps.arcgis.com/home/item.html?id=bd451ea2c4184eeb991b50c3bf473fc8" target="_blank" rel="noopener">Start</a></div>
+  <div class="df"><button class="pill" data-close>Mee Menu</button><a class="pill" href="https://tamu.maps.arcgis.com/home/item.html?id=bd451ea2c4184eeb991b50c3bf473fc8" target="_blank" rel="noopener">Start</a></div>
 </dialog>
 
 <script>
-// Wii-style clock and date
+// Mee-style clock and date
 function tick(){const d=new Date();
   document.getElementById('clock').textContent=d.toLocaleTimeString([], {hour:'numeric',minute:'2-digit'});
   document.getElementById('date').textContent=d.toLocaleDateString([], {weekday:'short',month:'numeric',day:'numeric'});}

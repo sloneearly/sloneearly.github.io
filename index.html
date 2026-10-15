@@ -7,7 +7,7 @@
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <style>
-:root{--cyan:#34bde6;--grey:#8c8c8c;--ink:#3c3c3c;--tile:#fdfdfd}
+:root{--hand:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Cpath d='M9.5 2.2c1.5 0 2.6 1.1 2.6 2.6V13l.6-.2c1.3-.4 2.6.2 3.1 1.4 1.2-.6 2.7-.2 3.3 1 1.3-.5 2.8.2 3.2 1.5l1 3c.9 2.9.2 6-1.8 8.2l-1.1 1.3h-9.6L5 22.8c-.8-1.1-.6-2.6.4-3.5 1-.8 2.4-.7 3.3.2l-1.8-2.1V4.8c0-1.5 1.1-2.6 2.6-2.6z' fill='%23fff' stroke='%232aa8d6' stroke-width='1.6' stroke-linejoin='round'/%3E%3Cpath d='M12.1 13v5M15.8 14.2v4M19.1 15.2v3.6' stroke='%232aa8d6' stroke-width='1.2' stroke-linecap='round'/%3E%3C/svg%3E") 9 2;--cyan:#34bde6;--grey:#8c8c8c;--ink:#3c3c3c;--tile:#fdfdfd}
 *{box-sizing:border-box}
 body{margin:0;font-family:"Segoe UI","Helvetica Neue",Arial,sans-serif;color:var(--ink);line-height:1.55;
 background:#eaeaea}
@@ -52,6 +52,25 @@ dialog::backdrop{background:#0006}
 .pill{min-width:140px;padding:9px 18px;border-radius:99px;border:2px solid var(--cyan);background:#fff;font:inherit;color:#444;text-align:center;text-decoration:none;cursor:pointer}
 .pill[aria-disabled]{border-color:#ccc;color:#bbb;pointer-events:none}
 #map,iframe{width:100%;height:300px;border:2px solid #d6d6d6;border-radius:12px;margin:6px 0}
+/* Hand pointer cursor (desktop) */
+html{scroll-behavior:smooth}body{cursor:var(--hand),auto}a,button,.tile,summary{cursor:var(--hand),pointer!important}
+/* Channel pages + arrows */
+.pages{position:relative;max-width:980px;margin:6px auto 0;overflow:hidden}
+.track{display:flex;transition:transform .5s cubic-bezier(.3,.8,.3,1)}.page{flex:0 0 100%;padding:10px 0}.page .grid{margin:0 auto}
+.arrow{position:absolute;top:50%;z-index:3;width:34px;height:70px;margin-top:-35px;border:3px solid var(--cyan);background:linear-gradient(#fff,#e9e9e9);display:grid;place-items:center;padding:0;box-shadow:0 2px 5px #0002}
+.arrow[hidden]{display:none}.next{right:0;border-right:none;border-radius:35px 0 0 35px}.prev{left:0;border-left:none;border-radius:0 35px 35px 0}
+.arrow:hover{box-shadow:0 0 0 4px #34bde655}
+a.tile{display:block;text-decoration:none}
+.ban.g1{background:url(images/game-waiting.jpg) center/cover}.ban.g2{background:url(images/game-clash.jpg) center/cover}.ban.g3{background:url(images/game-goblin.jpg) center/cover}
+.ban.gt{background:#e5e5e5 url(images/spur-logo.png) center 12%/84% auto no-repeat}
+/* Resume box */
+.cvwrap{max-width:860px;margin:0 auto;padding:0 16px}
+.cv{display:grid;grid-template-columns:150px 1fr;gap:20px;align-items:center;margin:14px 0 6px}.cv h2{grid-column:1/-1}
+.cv img{width:100%;border-radius:8px;border:3px solid #fff;box-shadow:0 0 0 2px #d6d6d6,0 3px 8px #0002;transition:.2s}.cv a:hover img{box-shadow:0 0 0 3px var(--cyan),0 3px 8px #0002;transform:scale(1.03)}
+.cv .pill{display:inline-block;margin:6px 8px 0 0}.pill.go{background:var(--cyan);color:#fff;font-weight:600}
+/* Channel zoom-in */
+@keyframes zoomin{from{opacity:0;transform:scale(.15)}}@keyframes fade{from{opacity:0}}
+dialog.zoom{animation:zoomin .38s cubic-bezier(.2,.9,.3,1)}dialog[open]::backdrop{animation:fade .38s}
 /* Subtle motion */
 body::before{content:"";position:fixed;inset:-6px 0 0;z-index:-2;background:repeating-linear-gradient(#eeeeee 0 3px,#e6e6e6 3px 6px);animation:drift 6s linear infinite}
 @keyframes drift{to{transform:translateY(6px)}}
@@ -71,7 +90,7 @@ body::before{content:"";position:fixed;inset:-6px 0 0;z-index:-2;background:repe
 @media(max-width:640px){header{padding:24px 16px 4px}header h1{font-size:1.75rem}header p{font-size:.88rem;line-height:1.4;margin:6px auto 0}header p span{display:block}header .sep{display:none}
 .grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:18px}.grid .empty:nth-child(n+5){display:none}
 .tile{border-radius:14px;padding:4px}.ban{border-radius:10px;font-size:.95rem;line-height:1.25}.ban small{font-size:.68rem;margin-top:3px}
-.bar{grid-template-columns:70px 1fr 70px;height:125px;margin-top:22px;padding:0 12px 14px}.round{width:60px;height:60px;font-size:1rem}.clock{font-size:2rem}.date{font-size:1.05rem;margin-bottom:-6px}.sd{left:86px;bottom:16px;width:28px;height:34px;font-size:.95rem}
+.bar{grid-template-columns:70px 1fr 70px;height:125px;margin-top:22px;padding:0 12px 14px}.round{width:60px;height:60px;font-size:1rem}.clock{font-size:2rem}.date{font-size:1.05rem;margin-bottom:-6px}.arrow{width:26px;height:56px;margin-top:-28px}.cv{grid-template-columns:100px 1fr;gap:14px}.cv .pill{min-width:0;padding:8px 14px}.sd{left:86px;bottom:16px;width:28px;height:34px;font-size:.95rem}
 section{padding:16px}section h2{margin:-16px -16px 12px;padding:8px 16px}.side{width:42%}.game{grid-template-columns:96px 1fr;gap:12px}.ico{width:60px;height:60px}.pill{min-width:110px}}
 </style>
 </head>
@@ -82,12 +101,42 @@ section{padding:16px}section h2{margin:-16px -16px 12px;padding:8px 16px}.side{w
   <p><span>GIS Student Technician at Texas A&amp;M</span> <span class="sep">&middot;</span> <span>Geographic Information Science and Technology, Minor in Computer Science</span></p>
 </header>
 
-<!-- Channel grid: the three project cards -->
+<!-- Resume: easy download at the top -->
+<div class="cvwrap">
+  <section id="resume" class="cv">
+    <h2>Resume</h2>
+    <a href="Slone_Early_Resume.pdf" target="_blank" rel="noopener" aria-label="Open resume PDF"><img src="images/resume-preview.jpg" alt="Preview of Slone Early's one-page resume"></a>
+    <div>
+      <p style="margin:0 0 4px"><strong>Slone Early &middot; Resume</strong></p>
+      <p class="meta">One page &middot; PDF &middot; updated October 2026</p>
+      <a class="pill go" href="Slone_Early_Resume.pdf" download>Download PDF</a><a class="pill" href="Slone_Early_Resume.pdf" target="_blank" rel="noopener">View</a>
+    </div>
+  </section>
+</div>
+
+<!-- Channel pages: page 1 = the three project cards, page 2 = games and tennis -->
+<div class="pages">
+ <div class="track" id="track">
+ <div class="page">
 <div class="grid">
   <button class="tile" data-open="d-screw"><div class="ban b3">Screwworm Channel<small>GEOG 476 capstone &middot; 2026</small><small>[ADD] preview image</small></div></button>
   <button class="tile" data-open="d-vend"><div class="ban b1 pic pv"><span>Vending Channel<small>GEOG 352 &middot; 2025</small></span></div></button>
   <button class="tile" data-open="d-inta"><div class="ban b2 pic pi"><span>INTA Map Channel<small>Political Science &middot; 2025</small></span></div></button>
   <div class="tile empty"></div><div class="tile empty"></div><div class="tile empty"></div>
+</div>
+ </div>
+ <div class="page" inert>
+<div class="grid">
+  <a class="tile" href="#g-waiting"><div class="ban pic g1"><span>The Waiting Game<small>Game Dev &middot; 2024</small></span></div></a>
+  <a class="tile" href="#g-clash"><div class="ban pic g2"><span>Clash of Calculations<small>Game Dev</small></span></div></a>
+  <a class="tile" href="#g-goblin"><div class="ban pic g3"><span>Goblin Stole My Credit Card<small>Game Dev</small></span></div></a>
+  <a class="tile" href="#tennis"><div class="ban pic gt"><span>Spur Tennis Channel<small>Gatesville, TX</small></span></div></a>
+  <div class="tile empty"></div><div class="tile empty"></div>
+</div>
+ </div>
+ </div>
+ <button class="arrow prev" id="prev" aria-label="Previous channel page" hidden><svg width="14" height="22" viewBox="0 0 14 22"><path d="M12 2L3 11l9 9" fill="#34bde6" stroke="#34bde6" stroke-width="2" stroke-linejoin="round"/></svg></button>
+ <button class="arrow next" id="next" aria-label="Next channel page"><svg width="14" height="22" viewBox="0 0 14 22"><path d="M2 2l9 9-9 9" fill="#34bde6" stroke="#34bde6" stroke-width="2" stroke-linejoin="round"/></svg></button>
 </div>
 
 <!-- Mee Menu bar -->
@@ -113,10 +162,9 @@ section{padding:16px}section h2{margin:-16px -16px 12px;padding:8px 16px}.side{w
     <p>Click a channel above to open a project.</p>
   </section>
 
-  <section id="resume">
-    <h2>Resume</h2>
+  <section id="experience">
+    <h2>Experience and Education</h2>
     <div class="ico" aria-hidden="true"><svg width="34" height="40" viewBox="0 0 34 40"><path d="M3 2h20l8 8v28H3z" fill="#fff" stroke="#9a9a9a" stroke-width="2.5"/><path d="M23 2v8h8" fill="none" stroke="#9a9a9a" stroke-width="2.5"/><path d="M9 18h16M9 24h16M9 30h11" stroke="#34bde6" stroke-width="2.5"/></svg></div>
-    <p><a href="https://drive.google.com/file/d/1h5U8_RlFCRDuk7-wJSXXNMEgwbkci3oj/view?usp=drive_link" target="_blank" rel="noopener">Download my resume</a></p>
     <h3>GIS Student Technician</h3>
     <p class="meta">Texas A&amp;M University &middot; College Station, TX &middot; Sept 2025 to Present</p>
     <ul>
@@ -151,19 +199,19 @@ section{padding:16px}section h2{margin:-16px -16px 12px;padding:8px 16px}.side{w
 
   <section id="games">
     <h2>Game Development</h2>
-    <div class="game"><img src="images/game-waiting.jpg" alt="The Waiting Game: Zimblort on a tightrope in the desert"><div>
+    <div class="game" id="g-waiting"><img src="images/game-waiting.jpg" alt="The Waiting Game: Zimblort on a tightrope in the desert"><div>
     <h3>The Waiting Game</h3>
     <p class="meta">Python &middot; PyGame &middot; OpenCV &middot; 2024</p>
     <p>A game about paying attention. Zimblort walks a tightrope, and if you look away from the screen, check your phone, or doze off, he falls. Face tracking through OpenCV drives the balance. I also packaged it as a standalone .exe.
       <a href="https://slahn.itch.io/the-waiting-game" target="_blank" rel="noopener">itch.io</a> &middot; <a href="https://github.com/slahns/Waiting-Game" target="_blank" rel="noopener">GitHub</a></p>
     </div></div>
-    <div class="game"><img src="images/game-clash.jpg" alt="Clash of Calculations title art"><div>
+    <div class="game" id="g-clash"><img src="images/game-clash.jpg" alt="Clash of Calculations title art"><div>
     <h3>Clash of Calculations</h3>
     <p class="meta">Godot &middot; GDScript &middot; Photoshop</p>
     <p>A two-player, web-based educational fighting game. Players solve math problems to power up their attacks. I built the mechanics, UI, and balancing, and drew the art myself.
       <a href="https://slahn.itch.io/clashofcalculations" target="_blank" rel="noopener">itch.io</a></p>
     </div></div>
-    <div class="game"><img src="images/game-goblin.jpg" alt="Goblin Stole My Credit Card art"><div>
+    <div class="game" id="g-goblin"><img src="images/game-goblin.jpg" alt="Goblin Stole My Credit Card art"><div>
     <h3>Goblin Stole My Credit Card</h3>
     <p>[ADD]</p>
     </div></div>
@@ -269,30 +317,47 @@ function initMap(){
   else{map.fitWorld();document.getElementById('mapnote').textContent='[ADD] machine coordinates to show the points on this map.';}
 }
 
-// Open and close project channels
+// Sound: shared audio context, unlocked on the first tap or key press
+let ac,master,musicGain;
+function audio(){if(!ac){ac=new (window.AudioContext||window.webkitAudioContext)();master=ac.createGain();master.gain.value=0.6;master.connect(ac.destination);
+  musicGain=ac.createGain();musicGain.connect(master);} if(ac.state!=='running')ac.resume(); return ac;}
+addEventListener('pointerdown',audio,{once:true});addEventListener('keydown',audio,{once:true});
+const mtof=m=>440*2**((m-69)/12);
+function tone(m,t,dur,type,vol,dest){const o=ac.createOscillator(),g=ac.createGain();o.type=type;o.frequency.value=mtof(m);
+  g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(vol,t+0.015);g.gain.exponentialRampToValueAtTime(0.0001,t+dur);
+  o.connect(g).connect(dest||master);o.start(t);o.stop(t+dur+0.05);}
+function sfx(kind){if(!ac||ac.state!=='running')return;const t=ac.currentTime;
+  if(kind==='hover')tone(91,t,0.06,'sine',0.04);else{tone(79,t,0.1,'triangle',0.11);tone(86,t+0.07,0.16,'triangle',0.09);}}
+document.querySelectorAll('.tile:not(.empty),.arrow').forEach(el=>{el.addEventListener('pointerenter',()=>sfx('hover'));el.addEventListener('click',()=>sfx('click'));});
+
+// Channel pages (arrows)
+const track=document.getElementById('track'),pages=track.children,prev=document.getElementById('prev'),next=document.getElementById('next');
+function go(n){track.style.transform='translateX('+(-100*n)+'%)';[...pages].forEach((p,i)=>p.inert=i!==n);prev.hidden=n===0;next.hidden=n===pages.length-1;}
+prev.addEventListener('click',()=>go(0));next.addEventListener('click',()=>go(1));
+
+// Open project channels with a zoom-in from the clicked tile
 document.querySelectorAll('[data-open]').forEach(b=>b.addEventListener('click',()=>{
-  const dlg=document.getElementById(b.dataset.open);dlg.showModal();
-  if(dlg.id==='d-vend')setTimeout(initMap,50);}));
+  const d=document.getElementById(b.dataset.open);d.showModal();
+  const r=d.getBoundingClientRect(),t=b.getBoundingClientRect();
+  d.style.transformOrigin=(t.left+t.width/2-r.left)+'px '+(t.top+t.height/2-r.top)+'px';
+  d.classList.remove('zoom');void d.offsetWidth;d.classList.add('zoom');
+  if(d.id==='d-vend')setTimeout(initMap,400);}));
 document.querySelectorAll('[data-close]').forEach(b=>b.addEventListener('click',()=>b.closest('dialog').close()));
 document.querySelectorAll('dialog').forEach(d=>d.addEventListener('click',e=>{if(e.target===d)d.close();}));
 
 // MUSIC (temporary, original tune for the class demo). Remove this block, the #music button, and the .sd CSS to take it out.
-let ac,master,loop,next=0,step=0;
-const mtof=m=>440*2**((m-69)/12), beat=0.3;
+let loop,nextT=0,step=0;const beat=0.3;
 const mel=[72,0,69,72,77,0,76,72, 74,0,72,69,65,0,69,0, 70,0,74,77,76,0,74,70, 72,0,70,67,64,0,0,0];
 const chords=[[53,57,60,64],[50,53,57,60],[55,58,62,65],[48,52,55,58]], bass=[41,38,43,36];
-function tone(m,t,dur,type,vol){const o=ac.createOscillator(),g=ac.createGain();o.type=type;o.frequency.value=mtof(m);
-  g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(vol,t+0.02);g.gain.exponentialRampToValueAtTime(0.0001,t+dur);
-  o.connect(g).connect(master);o.start(t);o.stop(t+dur+0.05);}
-function schedule(){while(next<ac.currentTime+0.6){const bar=Math.floor(step/8)%4,i=step%32;
-  if(mel[i])tone(mel[i],next,0.5,'triangle',0.16);
-  if(step%8===0)chords[bar].forEach(m=>tone(m,next,2.3,'sine',0.045));
-  if(step%4===0)tone(bass[bar],next,0.9,'sine',0.18);
-  next+=beat;step++;}}
-document.getElementById('music').addEventListener('click',e=>{const b=e.currentTarget;
-  if(!ac){ac=new (window.AudioContext||window.webkitAudioContext)();master=ac.createGain();master.gain.value=0.6;master.connect(ac.destination);}
-  if(loop){clearInterval(loop);loop=null;ac.suspend();b.setAttribute('aria-pressed','false');return;}
-  ac.resume();next=ac.currentTime+0.1;step=0;schedule();loop=setInterval(schedule,150);b.setAttribute('aria-pressed','true');});
+function schedule(){while(nextT<ac.currentTime+0.6){const bar=Math.floor(step/8)%4,i=step%32;
+  if(mel[i])tone(mel[i],nextT,0.5,'triangle',0.16,musicGain);
+  if(step%8===0)chords[bar].forEach(m=>tone(m,nextT,2.3,'sine',0.045,musicGain));
+  if(step%4===0)tone(bass[bar],nextT,0.9,'sine',0.18,musicGain);
+  nextT+=beat;step++;}}
+document.getElementById('music').addEventListener('click',e=>{const b=e.currentTarget;audio();
+  if(loop){clearInterval(loop);loop=null;musicGain.gain.setTargetAtTime(0,ac.currentTime,0.05);b.setAttribute('aria-pressed','false');return;}
+  musicGain.gain.cancelScheduledValues(ac.currentTime);musicGain.gain.setValueAtTime(1,ac.currentTime);
+  nextT=ac.currentTime+0.1;step=0;schedule();loop=setInterval(schedule,150);b.setAttribute('aria-pressed','true');});
 </script>
 </body>
 </html>

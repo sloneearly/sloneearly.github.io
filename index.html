@@ -3,15 +3,15 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Slone Early | Portfolio</title>
+<title>Slone Early | GIS Portfolio</title>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <style>
-:root{--hand:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Cpath d='M9.5 2.2c1.5 0 2.6 1.1 2.6 2.6V13l.6-.2c1.3-.4 2.6.2 3.1 1.4 1.2-.6 2.7-.2 3.3 1 1.3-.5 2.8.2 3.2 1.5l1 3c.9 2.9.2 6-1.8 8.2l-1.1 1.3h-9.6L5 22.8c-.8-1.1-.6-2.6.4-3.5 1-.8 2.4-.7 3.3.2l-1.8-2.1V4.8c0-1.5 1.1-2.6 2.6-2.6z' fill='%23fff' stroke='%232aa8d6' stroke-width='1.6' stroke-linejoin='round'/%3E%3Cpath d='M12.1 13v5M15.8 14.2v4M19.1 15.2v3.6' stroke='%232aa8d6' stroke-width='1.2' stroke-linecap='round'/%3E%3C/svg%3E") 9 2;--cyan:#34bde6;--grey:#8c8c8c;--ink:#3c3c3c;--tile:#fdfdfd}
+:root{--hand:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Cpath d='M9.5 2.2c1.5 0 2.6 1.1 2.6 2.6V13l.6-.2c1.3-.4 2.6.2 3.1 1.4 1.2-.6 2.7-.2 3.3 1 1.3-.5 2.8.2 3.2 1.5l1 3c.9 2.9.2 6-1.8 8.2l-1.1 1.3h-9.6L5 22.8c-.8-1.1-.6-2.6.4-3.5 1-.8 2.4-.7 3.3.2l-1.8-2.1V4.8c0-1.5 1.1-2.6 2.6-2.6z' fill='%23fff' stroke='%232aa8d6' stroke-width='1.6' stroke-linejoin='round'/%3E%3Cpath d='M12.1 13v5M15.8 14.2v4M19.1 15.2v3.6' stroke='%232aa8d6' stroke-width='1.2' stroke-linecap='round'/%3E%3C/svg%3E") 9 2;--cyan:#34bde6;--grey:#666;--ink:#3c3c3c;--tile:#fdfdfd}
 *{box-sizing:border-box}
 body{margin:0;font-family:"Segoe UI","Helvetica Neue",Arial,sans-serif;color:var(--ink);line-height:1.55;
 background:#eaeaea}
-a{color:#1a8fc0}
+a{color:#0b6f99}
 header{text-align:center;padding:28px 16px 8px}
 header h1{margin:0;font-size:2rem;color:#555;letter-spacing:.02em}
 header p{margin:4px 0 0;color:var(--grey)}
@@ -52,6 +52,9 @@ dialog::backdrop{background:#0006}
 .pill{min-width:140px;padding:9px 18px;border-radius:99px;border:2px solid var(--cyan);background:#fff;font:inherit;color:#444;text-align:center;text-decoration:none;cursor:pointer}
 .pill[aria-disabled]{border-color:#ccc;color:#bbb;pointer-events:none}
 #map,iframe{width:100%;height:300px;border:2px solid #d6d6d6;border-radius:12px;margin:6px 0}
+/* Filler: text Slone still needs to write. Delete this rule once every .fill is gone. */
+.fill{background:#fff3b0;outline:2px dashed #c9a400;padding:2px 6px;border-radius:4px;color:#5a4a00}
+header .goal{margin:8px auto 0;max-width:640px;color:var(--ink);font-weight:600}
 /* Hand pointer cursor (desktop) */
 html{scroll-behavior:smooth}body{cursor:var(--hand),auto}a,button,.tile,summary{cursor:var(--hand),pointer!important}
 /* Channel pages + arrows */
@@ -67,7 +70,7 @@ a.tile{display:block;text-decoration:none}
 .cvwrap{max-width:860px;margin:0 auto;padding:0 16px}
 .cv{display:grid;grid-template-columns:150px 1fr;gap:20px;align-items:center;margin:14px 0 6px}.cv h2{grid-column:1/-1}
 .cv img{width:100%;border-radius:8px;border:3px solid #fff;box-shadow:0 0 0 2px #d6d6d6,0 3px 8px #0002;transition:.2s}.cv a:hover img{box-shadow:0 0 0 3px var(--cyan),0 3px 8px #0002;transform:scale(1.03)}
-.cv .pill{display:inline-block;margin:6px 8px 0 0}.pill.go{background:var(--cyan);color:#fff;font-weight:600}
+.cv .pill{display:inline-block;margin:6px 8px 0 0}.pill.go{background:#0b6f99;border-color:#0b6f99;color:#fff;font-weight:600}
 /* Channel zoom-in */
 @keyframes zoomin{from{opacity:0;transform:scale(.15)}}@keyframes fade{from{opacity:0}}
 dialog.zoom{animation:zoomin .38s cubic-bezier(.2,.9,.3,1)}dialog[open]::backdrop{animation:fade .38s}
@@ -84,13 +87,10 @@ body::before{content:"";position:fixed;inset:-6px 0 0;z-index:-2;background:repe
 @keyframes shine{from{background-position:120% 0,0 0}to{background-position:-20% 0,0 0}}
 .c{animation:blink 2s steps(1) infinite}@keyframes blink{50%{opacity:0}}
 @media(prefers-reduced-motion:reduce){*,body::before{animation:none!important}}
-/* Music toggle (temporary, for the class demo) */
-.sd{position:absolute;left:132px;bottom:22px;width:34px;height:42px;border-radius:6px 12px 6px 6px;border:2px solid var(--cyan);background:#fff;color:#1a8fc0;font-size:1.1rem;cursor:pointer;padding:0}
-.sd[aria-pressed=true]{background:var(--cyan);color:#fff}
 @media(max-width:640px){header{padding:24px 16px 4px}header h1{font-size:1.75rem}header p{font-size:.88rem;line-height:1.4;margin:6px auto 0}header p span{display:block}header .sep{display:none}
 .grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:18px}.grid .empty:nth-child(n+5){display:none}
 .tile{border-radius:14px;padding:4px}.ban{border-radius:10px;font-size:.95rem;line-height:1.25}.ban small{font-size:.68rem;margin-top:3px}
-.bar{grid-template-columns:70px 1fr 70px;height:125px;margin-top:22px;padding:0 12px 14px}.round{width:60px;height:60px;font-size:1rem}.clock{font-size:2rem}.date{font-size:1.05rem;margin-bottom:-6px}.arrow{width:26px;height:56px;margin-top:-28px}.cv{grid-template-columns:100px 1fr;gap:14px}.cv .pill{min-width:0;padding:8px 14px}.sd{left:86px;bottom:16px;width:28px;height:34px;font-size:.95rem}
+.bar{grid-template-columns:70px 1fr 70px;height:125px;margin-top:22px;padding:0 12px 14px}.round{width:60px;height:60px;font-size:1rem}.clock{font-size:2rem}.date{font-size:1.05rem;margin-bottom:-6px}.arrow{width:26px;height:56px;margin-top:-28px}.cv{grid-template-columns:100px 1fr;gap:14px}.cv .pill{min-width:0;padding:8px 14px}
 section{padding:16px}section h2{margin:-16px -16px 12px;padding:8px 16px}.side{width:42%}.game{grid-template-columns:96px 1fr;gap:12px}.ico{width:60px;height:60px}.pill{min-width:110px}}
 </style>
 </head>
@@ -99,6 +99,7 @@ section{padding:16px}section h2{margin:-16px -16px 12px;padding:8px 16px}.side{w
 <header>
   <h1>Slone Early</h1>
   <p><span>GIS Student Technician at Texas A&amp;M</span> <span class="sep">&middot;</span> <span>Geographic Information Science and Technology, Minor in Computer Science</span></p>
+  <p class="goal"><span class="fill">[WRITE: one line naming the role you want after graduating]</span></p>
 </header>
 
 <!-- Resume: easy download at the top -->
@@ -119,10 +120,10 @@ section{padding:16px}section h2{margin:-16px -16px 12px;padding:8px 16px}.side{w
  <div class="track" id="track">
  <div class="page">
 <div class="grid">
-  <button class="tile" data-open="d-screw"><div class="ban b3">Screwworm Channel<small>GEOG 476 capstone &middot; 2026</small><small>[ADD] preview image</small></div></button>
+  <button class="tile" data-open="d-screw"><div class="ban b3">Screwworm Channel<small>GEOG 476 capstone &middot; 2026</small></div></button>
   <button class="tile" data-open="d-vend"><div class="ban b1 pic pv"><span>Vending Channel<small>GEOG 352 &middot; 2025</small></span></div></button>
   <button class="tile" data-open="d-inta"><div class="ban b2 pic pi"><span>INTA Map Channel<small>Political Science &middot; 2025</small></span></div></button>
-  <div class="tile empty"></div><div class="tile empty"></div><div class="tile empty"></div>
+  <div class="tile empty" aria-hidden="true"></div><div class="tile empty" aria-hidden="true"></div><div class="tile empty" aria-hidden="true"></div>
 </div>
  </div>
  <div class="page" inert>
@@ -131,7 +132,7 @@ section{padding:16px}section h2{margin:-16px -16px 12px;padding:8px 16px}.side{w
   <a class="tile" href="#g-clash"><div class="ban pic g2"><span>Clash of Calculations<small>Game Dev</small></span></div></a>
   <a class="tile" href="#g-goblin"><div class="ban pic g3"><span>Goblin Stole My Credit Card<small>Game Dev</small></span></div></a>
   <a class="tile" href="#tennis"><div class="ban pic gt"><span>Spur Tennis Channel<small>Gatesville, TX</small></span></div></a>
-  <div class="tile empty"></div><div class="tile empty"></div>
+  <div class="tile empty" aria-hidden="true"></div><div class="tile empty" aria-hidden="true"></div>
 </div>
  </div>
  </div>
@@ -146,10 +147,9 @@ section{padding:16px}section h2{margin:-16px -16px 12px;padding:8px 16px}.side{w
     <path d="M0 62H280C380 62 400 110 500 110S620 62 720 62H1000" fill="none" stroke="#34bde6" stroke-width="3"/>
   </svg>
   <div class="clock" id="clock">--:--</div>
-  <a class="round" href="#about" title="About">Mee</a>
-  <button class="sd" id="music" aria-pressed="false" title="Play music">&#9834;</button>
+  <a class="round" href="#about" title="About me" aria-label="About me">Mee</a>
   <div class="date" id="date"></div>
-  <a class="round mail" href="mailto:sloneearly@gmail.com" title="Email me">
+  <a class="round mail" href="mailto:sloneearly@gmail.com" title="Email me" aria-label="Email me">
     <svg width="38" height="28" viewBox="0 0 38 28"><rect x="1" y="1" width="36" height="26" rx="3" fill="#9a9a9a"/><path d="M2 3l17 13L36 3" fill="none" stroke="#fff" stroke-width="2.5"/></svg>
   </a>
 </div>
@@ -213,7 +213,8 @@ section{padding:16px}section h2{margin:-16px -16px 12px;padding:8px 16px}.side{w
     </div></div>
     <div class="game" id="g-goblin"><img src="images/game-goblin.jpg" alt="Goblin Stole My Credit Card art"><div>
     <h3>Goblin Stole My Credit Card</h3>
-    <p>[ADD]</p>
+    <p class="meta"><span class="fill">[WRITE: engine / language &middot; year]</span></p>
+    <p><span class="fill">[WRITE: what the game is, what you built yourself, and a link. Or delete this game and its tile on channel page 2.]</span></p>
     </div></div>
   </section>
 
@@ -234,27 +235,27 @@ section{padding:16px}section h2{margin:-16px -16px 12px;padding:8px 16px}.side{w
 </main>
 
 <!-- Project channels (open when a tile is clicked) -->
-<dialog id="d-screw">
+<dialog id="d-screw" aria-labelledby="t-screw">
   <div class="dh"><span>Screwworm Channel</span></div>
   <div class="db">
-    <h3>New World Screwworm Transmission Pathways</h3>
+    <h3 id="t-screw">New World Screwworm Transmission Pathways</h3>
     <p class="meta">GEOG 476 GIS Practicum capstone &middot; client brief from USDA / NGA Tearline &middot; In progress</p>
     <h4>The problem</h4>
     <p>Could cattle movement from Guatemala through southern Mexico toward South Texas provide undetected pathways for New World Screwworm, and what explains the June 2026 detections in Zavala County, Texas? Our class is building an intelligence estimate to answer that.</p>
     <h4>What I did</h4>
     <p>I am Team Lead for Team A. I keep each member's component connected and set up regular cross-team red-teaming with Team B. My own component is a data reliability check that flags problem detection records using three tests: unit consistency, coordinate plausibility for records with real coordinates, and agreement between U.S. (APHIS) and Mexican (SENASICA) sources. Surprising records go back to their owners instead of being silently "fixed."</p>
     <h4>What I found</h4>
-    <p>[ADD]</p>
+    <p><span class="fill">[WRITE: what your reliability checks turned up so far, e.g. how many records were flagged and the main kinds of problems]</span></p>
     <h4>What I would do differently</h4>
-    <p>[ADD]</p>
+    <p><span class="fill">[WRITE: one or two things you would change about your component or the team process]</span></p>
   </div>
   <div class="df"><button class="pill" data-close>Mee Menu</button><span class="pill" aria-disabled="true">Start</span></div>
 </dialog>
 
-<dialog id="d-vend">
+<dialog id="d-vend" aria-labelledby="t-vend">
   <div class="dh"><span>Vending Channel</span></div>
   <div class="db">
-    <h3>Vending Machine Beverage Availability on the East Quad</h3>
+    <h3 id="t-vend">Vending Machine Beverage Availability on the East Quad</h3>
     <p class="meta">GEOG 352 (GNSS in the Geosciences) team project &middot; 2025</p>
     <h4>The problem</h4>
     <p>Students and faculty rely on vending machines for quick drinks, but what is in stock varies a lot by location. We wanted to know which machines near the Eller Oceanography and Meteorology Building were most likely to have specific drinks, and how easy they were to reach on foot.</p>
@@ -270,10 +271,10 @@ section{padding:16px}section h2{margin:-16px -16px 12px;padding:8px 16px}.side{w
   <div class="df"><button class="pill" data-close>Mee Menu</button><span class="pill" aria-disabled="true">Start</span></div>
 </dialog>
 
-<dialog id="d-inta">
+<dialog id="d-inta" aria-labelledby="t-inta">
   <div class="dh"><span>INTA Map Channel</span></div>
   <div class="db">
-    <h3>INTA Exam Map</h3>
+    <h3 id="t-inta">INTA Exam Map</h3>
     <p class="meta">Department of Political Science, Texas A&amp;M &middot; 2025</p>
     <h4>The problem</h4>
     <p>A graduate-level exam needed a web map that shows and labels only a set list of countries, in a set order, while keeping accurate geometry and working in ArcGIS Online.</p>
@@ -281,11 +282,11 @@ section{padding:16px}section h2{margin:-16px -16px 12px;padding:8px 16px}.side{w
     <p>I cleaned the country names in the exam table (Countries_Partial) to match the World Countries Generalized layer, joined the two, and used a definition query to show only matched countries. I then exported the result as a new feature class with an ordering field so the labels keep their sequence.</p>
     <h4>What I found</h4>
     <p>Many names did not match: spelling errors, legacy names like "Czechia" vs. "Czech Republic," and politically sensitive cases. I also found that in-memory joins do not carry over when publishing web maps, which is why the export step was needed.</p>
-    <iframe src="https://tamu.maps.arcgis.com/home/item.html?id=bd451ea2c4184eeb991b50c3bf473fc8" title="INTA Exam web map" loading="lazy"></iframe>
+    <iframe src="https://tamu.maps.arcgis.com/apps/instant/basic/index.html?appid=bd451ea2c4184eeb991b50c3bf473fc8" title="INTA Exam web map: the exam countries labeled in order" loading="lazy"></iframe>
     <h4>What I would do differently</h4>
-    <p>[ADD]</p>
+    <p><span class="fill">[WRITE: what you would change about the INTA map or your process]</span></p>
   </div>
-  <div class="df"><button class="pill" data-close>Mee Menu</button><a class="pill" href="https://tamu.maps.arcgis.com/home/item.html?id=bd451ea2c4184eeb991b50c3bf473fc8" target="_blank" rel="noopener">Start</a></div>
+  <div class="df"><button class="pill" data-close>Mee Menu</button><a class="pill" href="https://tamu.maps.arcgis.com/apps/instant/basic/index.html?appid=bd451ea2c4184eeb991b50c3bf473fc8" target="_blank" rel="noopener" aria-label="Start: open the INTA map in a new tab">Start</a></div>
 </dialog>
 
 <script>
@@ -314,13 +315,12 @@ function initMap(){
   const pts=vendPoints.filter(p=>typeof p.lat==='number'&&typeof p.lng==='number');
   pts.forEach(p=>L.marker([p.lat,p.lng]).addTo(map).bindPopup('<b>'+p.name+'</b><br>'+p.note));
   if(pts.length){map.fitBounds(pts.map(p=>[p.lat,p.lng]),{padding:[30,30],maxZoom:17});}
-  else{map.fitWorld();document.getElementById('mapnote').textContent='[ADD] machine coordinates to show the points on this map.';}
+  else{map.fitWorld();document.getElementById('mapnote').textContent='Map points unavailable.';}
 }
 
 // Sound: shared audio context, unlocked on the first tap or key press
-let ac,master,musicGain;
-function audio(){if(!ac){ac=new (window.AudioContext||window.webkitAudioContext)();master=ac.createGain();master.gain.value=0.6;master.connect(ac.destination);
-  musicGain=ac.createGain();musicGain.connect(master);} if(ac.state!=='running')ac.resume(); return ac;}
+let ac,master;
+function audio(){if(!ac){ac=new (window.AudioContext||window.webkitAudioContext)();master=ac.createGain();master.gain.value=0.6;master.connect(ac.destination);} if(ac.state!=='running')ac.resume(); return ac;}
 addEventListener('pointerdown',audio,{once:true});addEventListener('keydown',audio,{once:true});
 const mtof=m=>440*2**((m-69)/12);
 function tone(m,t,dur,type,vol,dest){const o=ac.createOscillator(),g=ac.createGain();o.type=type;o.frequency.value=mtof(m);
@@ -345,19 +345,6 @@ document.querySelectorAll('[data-open]').forEach(b=>b.addEventListener('click',(
 document.querySelectorAll('[data-close]').forEach(b=>b.addEventListener('click',()=>b.closest('dialog').close()));
 document.querySelectorAll('dialog').forEach(d=>d.addEventListener('click',e=>{if(e.target===d)d.close();}));
 
-// MUSIC (temporary, original tune for the class demo). Remove this block, the #music button, and the .sd CSS to take it out.
-let loop,nextT=0,step=0;const beat=0.3;
-const mel=[72,0,69,72,77,0,76,72, 74,0,72,69,65,0,69,0, 70,0,74,77,76,0,74,70, 72,0,70,67,64,0,0,0];
-const chords=[[53,57,60,64],[50,53,57,60],[55,58,62,65],[48,52,55,58]], bass=[41,38,43,36];
-function schedule(){while(nextT<ac.currentTime+0.6){const bar=Math.floor(step/8)%4,i=step%32;
-  if(mel[i])tone(mel[i],nextT,0.5,'triangle',0.16,musicGain);
-  if(step%8===0)chords[bar].forEach(m=>tone(m,nextT,2.3,'sine',0.045,musicGain));
-  if(step%4===0)tone(bass[bar],nextT,0.9,'sine',0.18,musicGain);
-  nextT+=beat;step++;}}
-document.getElementById('music').addEventListener('click',e=>{const b=e.currentTarget;audio();
-  if(loop){clearInterval(loop);loop=null;musicGain.gain.setTargetAtTime(0,ac.currentTime,0.05);b.setAttribute('aria-pressed','false');return;}
-  musicGain.gain.cancelScheduledValues(ac.currentTime);musicGain.gain.setValueAtTime(1,ac.currentTime);
-  nextT=ac.currentTime+0.1;step=0;schedule();loop=setInterval(schedule,150);b.setAttribute('aria-pressed','true');});
 </script>
 </body>
 </html>
